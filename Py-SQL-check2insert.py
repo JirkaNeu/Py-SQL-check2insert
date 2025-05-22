@@ -16,7 +16,16 @@ except:
 
 #--- read sql
 
-#--- read csv
+#--- read new data
+new_data = path + "new_data.xlsx"
+
+import pandas as pd
+get_new_data = pd.read_excel(new_data)
+col_data = get_new_data['new'].apply(str)
+control_data_jne = [str(row) for row in col_data]
+
+print(control_data_jne)
+print(col_data)
 
 #--- check with chromadb
 
