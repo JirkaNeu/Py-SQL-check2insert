@@ -7,6 +7,9 @@ try:
     notes.close()
     path = getnotes[0]
     path = '/'.join(path.split('\\'))
+    dbpass = []
+    for i in range(5):
+        dbpass.append(getnotes[i+1])
 except:
   path = ""
   try: import ctypes; ctypes.windll.user32.MessageBoxW(0, "check path...", "Python", 1)
@@ -24,13 +27,26 @@ print(new_data_df)
 print(new_data_lst)
 
 #--- read sql
+import psycopg2
+conn = psycopg2.connect(database=dbpass[0],
+                        host=dbpass[1],
+                        user=dbpass[2],
+                        password=dbpass[3],
+                        port=dbpass[4])
+
+cursor = conn.cursor()
+cursor.execute('SELECT * FROM table_jne')
+entries = cursor.fetchall()
+conn.close()
+
+print("--------------")
+for i in entries:
+    print(i)
 
 
 #--- check with chromadb
 
-
 #--- update sql
-
 
 #--- update csv
 
