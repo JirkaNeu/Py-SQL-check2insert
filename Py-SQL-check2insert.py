@@ -46,6 +46,42 @@ for i in entries:
 
 #--- check with chromadb
 
+
+import chromadb
+from chromadb.utils import embedding_functions
+from chromadb import Documents, EmbeddingFunction, Embeddings
+client = chromadb.Client()
+#dbPath = path + "chroma"
+#client = chromadb.PersistentClient(path=dbPath)
+
+import torch
+from transformers import AutoTokenizer, AutoModel
+#model = AutoModel.from_pretrained('jinaai/jina-embeddings-v2-base-de', trust_remote_code=True, torch_dtype=torch.bfloat16)
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('sentence-transformers/LaBSE')
+#model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+#model = SentenceTransformer('sentence-transformers/all-MiniLM-L12-v2')
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model.to(device)
+
+class Embedding_Function(EmbeddingFunction):
+  def __call__(self, input: Documents) -> Embeddings:
+    embeddings = model.encode(input)
+    return(embeddings.tolist())
+
+my_embeddings = Embedding_Function()
+dbName = "checkDB"
+dbDocs = ""
+
+collection = client.get_or_create_collection(
+#collection = client.create_collection(
+  name=dbName,
+  embedding_function=my_embeddings,
+  metadata={"hnsw:space": "cosine"}
+)
+
+
+
 #--- update sql
 
 #--- update csv
