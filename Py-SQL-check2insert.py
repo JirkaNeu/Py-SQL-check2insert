@@ -1,4 +1,5 @@
 from jne import prinje
+from jne import loogress
 try:
   with open("jne.txt", "r", encoding="utf-8") as notes:
     getnotes = []
@@ -34,18 +35,28 @@ conn = psycopg2.connect(database=dbpass[0],
                         password=dbpass[3],
                         port=dbpass[4])
 
-cursor = conn.cursor()
-cursor.execute('SELECT * FROM table_jne')
-entries = cursor.fetchall()
+cur = conn.cursor()
+
+#
+#cur.execute('SELECT * FROM bands')
+cur.execute('SELECT name FROM bands')
+sql_data = cur.fetchall()
+#conn.commit()
+cur.close()
 conn.close()
 
+
+sql_data_lst = []
+for entries in sql_data:
+    sql_data_lst.append(entries[0])
+
 print("--------------")
-for i in entries:
-    print(i)
+print("data received:")
+print(sql_data_lst)
+print("--------------\n")
 
 
 #--- check with chromadb
-
 
 import chromadb
 from chromadb.utils import embedding_functions
@@ -65,21 +76,48 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model.to(device)
 
 class Embedding_Function(EmbeddingFunction):
-  def __call__(self, input: Documents) -> Embeddings:
-    embeddings = model.encode(input)
-    return(embeddings.tolist())
+    def __call__(self, input: Documents) -> Embeddings:
+        embeddings = model.encode(input)
+        return(embeddings.tolist())
 
 my_embeddings = Embedding_Function()
-dbName = "checkDB"
-dbDocs = ""
+dbName = "SQLvecDB"
+dbDocs = sql_data_lst
 
-collection = client.get_or_create_collection(
-#collection = client.create_collection(
-  name=dbName,
-  embedding_function=my_embeddings,
-  metadata={"hnsw:space": "cosine"}
+#collection = client.get_or_create_collection(
+collection = client.create_collection(
+    name=dbName,
+    embedding_function=my_embeddings,
+    metadata={"hnsw:space": "cosine"}
 )
 
+for i in range(len(dbDocs)):
+    collection.add(
+        documents=dbDocs[i],
+        ids=str(i),
+        metadatas={"source": "sql_data"}
+    )
+    exec('try:loogress(i, len(dbDocs))\nexcept:print("thinking...")')
+
+
+print("\nlen new data:")
+print(len(new_data_lst))
+
+
+
+dist_threshold = 0.65
+results = []
+
+for i in range(len(new_data_lst)):
+    db_query = collection.query(query_texts=[new_data_lst[i]], n_results=len(dbDocs))
+    nearest_embeddings = db_query['ids'][0]
+    embedding_document = db_query['documents'][0]
+    distances = db_query['distances'][0]
+    filtered_results = [(id, doc, dist) for id, doc, dist in zip(nearest_embeddings, embedding_document, distances) if dist <= dist_threshold]
+    #filtered_results = [(id, dist) for id, dist in zip(nearest_embeddings, distances) if dist <= dist_threshold]
+    print(new_data_lst[i])
+    print(filtered_results)
+    results.append(filtered_results)
 
 
 #--- update sql
