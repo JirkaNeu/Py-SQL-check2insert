@@ -102,10 +102,10 @@ for i in range(len(dbDocs)):
 
 print("\nlen new data:")
 print(len(new_data_lst))
+print("")
 
 
-
-dist_threshold = 0.65
+dist_threshold = 0.55
 results = []
 
 for i in range(len(new_data_lst)):
@@ -118,6 +118,13 @@ for i in range(len(new_data_lst)):
     print(new_data_lst[i])
     print(filtered_results)
     results.append(filtered_results)
+
+
+print("")
+print(results)
+
+#create list with new entries dist. > 45
+#ask for each with dist < 45
 
 
 #--- update sql
