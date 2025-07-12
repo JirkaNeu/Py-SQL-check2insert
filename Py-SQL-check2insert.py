@@ -24,7 +24,9 @@ get_new_data = pd.read_excel(new_data)
 new_data_df = get_new_data['new'].apply(str)
 new_data_lst = [str(row) for row in new_data_df]
 
+print("new_data_df:")
 print(new_data_df)
+print("new_data_lst:")
 print(new_data_lst)
 
 #--- read sql
@@ -37,7 +39,6 @@ conn = psycopg2.connect(database=dbpass[0],
 
 cur = conn.cursor()
 
-#
 #cur.execute('SELECT * FROM bands')
 cur.execute('SELECT name FROM bands')
 sql_data = cur.fetchall()
@@ -51,7 +52,7 @@ for entries in sql_data:
     sql_data_lst.append(entries[0])
 
 print("--------------")
-print("data received:")
+print("sql data received:")
 print(sql_data_lst)
 print("--------------\n")
 
@@ -115,13 +116,14 @@ for i in range(len(new_data_lst)):
     distances = db_query['distances'][0]
     filtered_results = [(id, doc, dist) for id, doc, dist in zip(nearest_embeddings, embedding_document, distances) if dist <= dist_threshold]
     #filtered_results = [(id, dist) for id, dist in zip(nearest_embeddings, distances) if dist <= dist_threshold]
-    print(new_data_lst[i])
-    print(filtered_results)
+    #print(new_data_lst[i])
+    #print(filtered_results)
+    #print(f"new data: {new_data_lst[i]} ---> similar to: {filtered_results['doc']}")
     results.append(filtered_results)
 
 
-print("")
-print(results)
+print("---------")
+print(results[3][1][doc])
 
 #create list with new entries dist. > 45
 #ask for each with dist < 45
