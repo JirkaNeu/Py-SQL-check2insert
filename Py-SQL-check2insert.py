@@ -118,14 +118,17 @@ for i in range(len(new_data_lst)):
     #filtered_results = [(id, dist) for id, dist in zip(nearest_embeddings, distances) if dist <= dist_threshold]
     #print(new_data_lst[i])
     #print(filtered_results)
-    #print(f"new data: {new_data_lst[i]} ---> similar to: {filtered_results['doc']}")
+    #print(len(filtered_results))
+    for x in range(len(filtered_results)):
+        #print(filtered_results[x][1])
+        print(f"new data: {new_data_lst[i]} ---> similar to: {filtered_results[x][1]}")
     results.append(filtered_results)
 
 
 print("---------")
-print(results[3][1][doc])
+print(results)
 
-#create list with new entries dist. > 45
+#create list with new entries where dist. > dist_threshold
 #ask for each with dist < 45
 
 
