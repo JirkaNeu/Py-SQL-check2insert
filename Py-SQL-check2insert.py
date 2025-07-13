@@ -132,11 +132,39 @@ print("---------")
 print(results_2check)
 
 #create list with new entries where dist. > dist_threshold
-print("The folling data will be added to the database:")
+print("The following data will be sent to the database:")
 
 ready4db = list(set(new_data_lst) - set(results_2check))
 print(ready4db)
-#--- update csv
+
+#------- print csv as log-file -------#
+#-------------------------------------#
+import os
+import csv
+
+def fill_file(file_name):
+    with open(file_name, 'a', newline='') as file:
+        fill_file = csv.writer(file)
+        fill_file.writerows(logfile_list)
+    return None
+
+def results_to_file():
+    file_name = path + "new_data_log.csv"
+    if not os.path.exists(file_name):
+        head_row = [['new data', 'status']]
+        with open(file_name, 'w', newline='') as file:
+            preparefile = csv.writer(file)
+            preparefile.writerows(head_row)
+        fill_file(file_name)
+    else:
+        fill_file(file_name)
+    return None
+
+logfile_list = [(item, "updated to database") for item in ready4db]
+
+print("logfile_list")
+print(logfile_list)
+results_to_file()
 
 
 
