@@ -106,8 +106,9 @@ print(len(new_data_lst))
 print("")
 
 
-dist_threshold = 0.55
+dist_threshold = 0.45
 results = []
+results_2check = []
 
 for i in range(len(new_data_lst)):
     db_query = collection.query(query_texts=[new_data_lst[i]], n_results=len(dbDocs))
@@ -120,20 +121,30 @@ for i in range(len(new_data_lst)):
     #print(filtered_results)
     #print(len(filtered_results))
     for x in range(len(filtered_results)):
-        #print(filtered_results[x][1])
-        print(f"new data: {new_data_lst[i]} ---> similar to: {filtered_results[x][1]}")
+        print(f"new data 2check: {new_data_lst[i]} ---> similar to: {filtered_results[x][1]}")
+        results_2check.append(new_data_lst[i])
     results.append(filtered_results)
 
 
 print("---------")
-print(results)
+#print(len(results))
+#print(results)
+print(results_2check)
 
 #create list with new entries where dist. > dist_threshold
+print("The folling data will be added to the database:")
+
+ready4db = list(set(new_data_lst) - set(results_2check))
+print(ready4db)
+#--- update csv
+
+
+
 #ask for each with dist < 45
 
 
 #--- update sql
 
-#--- update csv
+
 
 
