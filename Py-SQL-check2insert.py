@@ -101,14 +101,11 @@ for i in range(len(dbDocs)):
     exec('try:loogress(i, len(dbDocs))\nexcept:print("thinking...")')
 
 
-print("\nlen new data:")
-print(len(new_data_lst))
-print("")
 
-
-dist_threshold = 0.45
+dist_threshold = 0.55
 results = []
 results_2check = []
+varification_list = []
 
 for i in range(len(new_data_lst)):
     db_query = collection.query(query_texts=[new_data_lst[i]], n_results=len(dbDocs))
@@ -123,13 +120,35 @@ for i in range(len(new_data_lst)):
     for x in range(len(filtered_results)):
         print(f"new data 2check: {new_data_lst[i]} ---> similar to: {filtered_results[x][1]}")
         results_2check.append(new_data_lst[i])
+        varification_list.append([new_data_lst[i], filtered_results[x][1]])
     results.append(filtered_results)
 
 
 print("---------")
-#print(len(results))
-#print(results)
-print(results_2check)
+#----------------- user feedback -----------------#
+
+def do_varify():
+    print("\n >>>>>> verification procedure not yet implemented... <<<<<<\n")
+    return None
+
+if len(varification_list) > 5:
+    print(f"There are or more than {len(varification_list)} entries to varify.\n")
+    check = 0
+    while True:
+        user_says = input("Do you want to start verifying? (y/n): ")
+        if user_says.lower() == "y":
+            print("You chose yes!")
+            do_varify()
+            break
+        elif user_says.lower() == "n":
+            print("You chose no!")
+            break
+        else:
+            check += 1
+            print("Please press 'y' or 'n' key.\n")
+            if check == 2: print("--last try--")
+            if check > 2: break
+
 
 #create list with new entries where dist. > dist_threshold
 print("The following data will be sent to the database:")
@@ -162,9 +181,11 @@ def results_to_file():
 
 logfile_list = [(item, "updated to database") for item in ready4db]
 
-print("logfile_list")
-print(logfile_list)
 results_to_file()
+
+print("\n--------------")
+print("no further processing with unverified entries:")
+print(results_2check)
 
 
 
