@@ -128,8 +128,8 @@ print("---------")
 #----------------- user feedback -----------------#
 
 def do_varify():
-    print("\n >>>>>> verification procedure not yet implemented... <<<<<<\n")
-    return None
+    dummy_var = "\n >>>>>> verification procedure not yet implemented... <<<<<<\n"
+    return dummy_var
 
 if len(varification_list) > 5:
     print(f"There are or more than {len(varification_list)} entries to varify.\n")
@@ -137,11 +137,11 @@ if len(varification_list) > 5:
     while True:
         user_says = input("Do you want to start verifying? (y/n): ")
         if user_says.lower() == "y":
-            print("You chose yes!")
-            do_varify()
+            get_verification = do_varify()
             break
         elif user_says.lower() == "n":
-            print("You chose no!")
+            get_verification = "--verification canceled--\n"
+            print("Similar data will not be updated to database")
             break
         else:
             check += 1
@@ -149,8 +149,10 @@ if len(varification_list) > 5:
             if check == 2: print("--last try--")
             if check > 2: break
 
+print(get_verification)
 
-#create list with new entries where dist. > dist_threshold
+
+#----> list with new entries where dist. > dist_threshold
 print("The following data will be sent to the database:")
 
 ready4db = list(set(new_data_lst) - set(results_2check))
@@ -180,20 +182,15 @@ def results_to_file():
     return None
 
 logfile_list = [(item, "updated to database") for item in ready4db]
-
-results_to_file()
+not_verified = [(item, "not sent to database") for item in results_2check]
+logfile_list = logfile_list + not_verified
 
 print("\n--------------")
 print("no further processing with unverified entries:")
 print(results_2check)
 
-
-
-#ask for each with dist < 45
+results_to_file() #2do --> add time stamp to file name
 
 
 #--- update sql
-
-
-
 
