@@ -194,3 +194,20 @@ results_to_file() #2do --> add time stamp to file name
 
 #--- update sql
 
+
+
+
+cur = conn.cursor()
+
+#cur.execute('SELECT * FROM bands')
+cur.execute('SELECT name FROM bands')
+sql_data = cur.fetchall()
+#conn.commit()
+cur.close()
+conn.close()
+
+
+
+
+
+
