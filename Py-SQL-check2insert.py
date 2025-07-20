@@ -44,7 +44,7 @@ cur.execute('SELECT name FROM bands')
 sql_data = cur.fetchall()
 #conn.commit()
 cur.close()
-conn.close()
+#conn.close()
 
 
 sql_data_lst = []
@@ -192,17 +192,14 @@ print(results_2check)
 results_to_file() #2do --> add time stamp to file name
 
 
-#--- update sql
-
-
-
-
+#----- update sql -----#
 cur = conn.cursor()
-
-#cur.execute('SELECT * FROM bands')
-cur.execute('SELECT name FROM bands')
-sql_data = cur.fetchall()
-#conn.commit()
+for i in range(len(ready4db)):
+    val1 = ready4db[i]
+    val2 = "Python"
+    cur.execute('INSERT into bands (name, genre) VALUES (%s, %s)', (val1, val2))
+#cur.executemany('INSERT into bands (name) VALUES (%s)', ready4db)
+conn.commit()
 cur.close()
 conn.close()
 
