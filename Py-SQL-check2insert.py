@@ -163,7 +163,7 @@ print(ready4db)
 import os
 import csv
 from datetime import datetime
-today = datetime.now().date()
+today = datetime.now().strftime("%Y-%m-%d_%H_%M")
 
 def fill_file(file_name):
     with open(file_name, 'a', newline='') as file:
@@ -191,7 +191,7 @@ print("\n--------------")
 print("no further processing with unverified entries:")
 print(results_2check)
 
-results_to_file() #2do --> add time stamp to file name
+results_to_file()
 
 
 #----- update sql -----#
