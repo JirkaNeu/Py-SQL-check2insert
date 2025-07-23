@@ -162,6 +162,8 @@ print(ready4db)
 #-------------------------------------#
 import os
 import csv
+from datetime import datetime
+today = datetime.now().date()
 
 def fill_file(file_name):
     with open(file_name, 'a', newline='') as file:
@@ -170,7 +172,7 @@ def fill_file(file_name):
     return None
 
 def results_to_file():
-    file_name = path + "new_data_log.csv"
+    file_name = path + str(today) + "_log.csv"
     if not os.path.exists(file_name):
         head_row = [['new data', 'status']]
         with open(file_name, 'w', newline='') as file:
