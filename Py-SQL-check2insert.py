@@ -26,8 +26,9 @@ new_data_lst = [str(row) for row in new_data_df]
 
 print("new_data_df:")
 print(new_data_df)
-print("new_data_lst:")
-print(new_data_lst)
+try: prinje(new_data_lst=new_data_lst)
+except: print(".....\n")
+
 
 #--- read sql
 import psycopg2
@@ -204,9 +205,4 @@ for i in range(len(ready4db)):
 conn.commit()
 cur.close()
 conn.close()
-
-
-
-
-
 
