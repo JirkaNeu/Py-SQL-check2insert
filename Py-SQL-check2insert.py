@@ -133,6 +133,11 @@ def do_varify():
         print(f"new data: {varification_list[i][0]} ---> is similar to DB entry: {varification_list[i][1]} (dist: {round(varification_list[i][2], 2)})")
         print(f" >> Do you want to update {varification_list[i][0]} to data base anyway..?")
         user_wants = input("not yet implemented - press any key...")
+        if user_wants.lower() == "y":
+            #varification_list[i][0] aus der results_to_check entfernen und auf die ready4db setzen --> noch nicht angelegt
+            print(f"{varification_list[i][0]} added to update-list...")
+        if user_wants.lower() == "y":
+            print(f"{varification_list[i][0]} will not be sent to data base...")
         print("\n + + + \n")
 
     dummy_var = "\n >>>>>> verification procedure not yet implemented... <<<<<<\n"
