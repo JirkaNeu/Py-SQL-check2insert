@@ -121,7 +121,7 @@ for i in range(len(new_data_lst)):
     for x in range(len(filtered_results)):
         print(f"new data 2check: {new_data_lst[i]} ---> similar to: {filtered_results[x][1]}")
         results_2check.append(new_data_lst[i])
-        varification_list.append([new_data_lst[i], filtered_results[x][1]])
+        varification_list.append([new_data_lst[i], filtered_results[x][1], filtered_results[x][2]])
     results.append(filtered_results)
 
 
@@ -129,6 +129,12 @@ print("---------")
 #----------------- user feedback -----------------#
 
 def do_varify():
+    for i in range(len(varification_list)):
+        print(f"new data: {varification_list[i][0]} ---> is similar to DB entry: {varification_list[i][1]} (dist: {round(varification_list[i][2], 2)})")
+        print(f" >> Do you want to update {varification_list[i][0]} to data base anyway..?")
+        user_wants = input("not yet implemented - press any key...")
+        print("\n + + + \n")
+
     dummy_var = "\n >>>>>> verification procedure not yet implemented... <<<<<<\n"
     return dummy_var
 
@@ -154,10 +160,11 @@ print(get_verification)
 
 
 #----> list with new entries where dist. > dist_threshold
-print("The following data will be sent to the database:")
+print(f"The following data (with distance greater than {dist_threshold}) will be sent to the database:")
 
 ready4db = list(set(new_data_lst) - set(results_2check))
 print(ready4db)
+
 
 #------- print csv as log-file -------#
 #-------------------------------------#
