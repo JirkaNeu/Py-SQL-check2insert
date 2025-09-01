@@ -132,31 +132,26 @@ def do_varify():
     varified_entries = set()
     for i in range(len(varification_list)):
         print(f"new data: {varification_list[i][0]} ---> is similar to DB entry: {varification_list[i][1]} (dist: {round(varification_list[i][2], 2)})")
-        user_wants = input(f" >> Do you want to update {varification_list[i][0]} to data base anyway..? (y/n)")
+        user_wants = input(f">>> Do you want to update {varification_list[i][0]} to data base anyway..? (y/n)")
         if user_wants.lower() == "y":
-            #varification_list[i][0] aus der results_to_check entfernen und auf die ready4db setzen --> noch nicht angelegt
-            #results_2check = set(results_2check) - set(varification_list[i][0])
             varified_entries.add(varification_list[i][0])
-            print("---------------")
-            print(varified_entries)
-            print("---------------")
             print(f"{varification_list[i][0]} added to update-list...")
         elif user_wants.lower() == "n":
             print(f"{varification_list[i][0]} will not be sent to data base...")
         else:
             print(f"{varification_list[i][0]} will not be sent to data base...")
-        print("\n + + + \n")
+        print("\n + + + + +\n")
     return varified_entries
 
-if len(varification_list) > 5:
-    print(f"There are or more than {len(varification_list)} entries to varify.\n")
+if len(varification_list) > 0:
+    print(f"There are {len(varification_list)} entries to varify with a distance smaller than {dist_threshold}.\n")
     check = 0
     while True:
-        user_says = input("Do you want to start verifying? (y/n): ")
+        user_says = input("Do you want to start verifying each entry? (y/n): ")
         if user_says.lower() == "y":
             get_verification = do_varify()
-            print(get_verification)
             results_2check = list(set(results_2check) - set(get_verification))
+            print(" -- verified entries added to update-list --")
             break
         elif user_says.lower() == "n":
             get_verification = "--verification canceled--\n"
@@ -168,11 +163,10 @@ if len(varification_list) > 5:
             if check == 2: print("--last try--")
             if check > 2: break
 
-print(get_verification)
 
 
 #----> list with new entries where dist. > dist_threshold
-print(f"The following data (with distance greater than {dist_threshold}) will be sent to the database:")
+print(f"The following data (distance greater than {dist_threshold} or manually verified) will be sent to the database:")
 
 ready4db = list(set(new_data_lst) - set(results_2check))
 print(ready4db)
