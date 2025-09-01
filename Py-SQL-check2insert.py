@@ -129,19 +129,24 @@ print("---------")
 #----------------- user feedback -----------------#
 
 def do_varify():
+    varified_entries = set()
     for i in range(len(varification_list)):
         print(f"new data: {varification_list[i][0]} ---> is similar to DB entry: {varification_list[i][1]} (dist: {round(varification_list[i][2], 2)})")
-        print(f" >> Do you want to update {varification_list[i][0]} to data base anyway..?")
-        user_wants = input("not yet implemented - press any key...")
+        user_wants = input(f" >> Do you want to update {varification_list[i][0]} to data base anyway..? (y/n)")
         if user_wants.lower() == "y":
             #varification_list[i][0] aus der results_to_check entfernen und auf die ready4db setzen --> noch nicht angelegt
+            #results_2check = set(results_2check) - set(varification_list[i][0])
+            varified_entries.add(varification_list[i][0])
+            print("---------------")
+            print(varified_entries)
+            print("---------------")
             print(f"{varification_list[i][0]} added to update-list...")
-        if user_wants.lower() == "y":
+        elif user_wants.lower() == "n":
+            print(f"{varification_list[i][0]} will not be sent to data base...")
+        else:
             print(f"{varification_list[i][0]} will not be sent to data base...")
         print("\n + + + \n")
-
-    dummy_var = "\n >>>>>> verification procedure not yet implemented... <<<<<<\n"
-    return dummy_var
+    return varified_entries
 
 if len(varification_list) > 5:
     print(f"There are or more than {len(varification_list)} entries to varify.\n")
@@ -150,6 +155,8 @@ if len(varification_list) > 5:
         user_says = input("Do you want to start verifying? (y/n): ")
         if user_says.lower() == "y":
             get_verification = do_varify()
+            print(get_verification)
+            results_2check = list(set(results_2check) - set(get_verification))
             break
         elif user_says.lower() == "n":
             get_verification = "--verification canceled--\n"
