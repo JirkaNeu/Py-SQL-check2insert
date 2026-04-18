@@ -1,3 +1,5 @@
+import sys
+import time
 from jne import prinje
 from jne import loogress
 try:
@@ -45,6 +47,11 @@ sql_data = cur.fetchall()
 #conn.commit()
 cur.close()
 #conn.close()
+
+if not sql_data:
+    print("\nempty database - no need to proceed...")
+    time.sleep(2)
+    sys.exit()
 
 
 sql_data_lst = []
@@ -131,14 +138,14 @@ def do_varify():
     varified_entries = set()
     for i in range(len(varification_list)):
         print(f"new data: {varification_list[i][0]} ---> is similar to DB entry: {varification_list[i][1]} (dist: {round(varification_list[i][2], 2)})")
-        user_wants = input(f">>> Do you want to update {varification_list[i][0]} to data base anyway..? (y/n)")
+        user_wants = input(f">>> Do you want to update {varification_list[i][0]} to database anyway..? (y/n)")
         if user_wants.lower() == "y":
             varified_entries.add(varification_list[i][0])
             print(f"{varification_list[i][0]} added to update-list...")
         elif user_wants.lower() == "n":
-            print(f"{varification_list[i][0]} will not be sent to data base...")
+            print(f"{varification_list[i][0]} will not be sent to database...")
         else:
-            print(f"{varification_list[i][0]} will not be sent to data base...")
+            print(f"{varification_list[i][0]} will not be sent to database...")
         print("\n + + + + +\n")
     return varified_entries
 
