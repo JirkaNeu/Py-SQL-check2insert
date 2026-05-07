@@ -7,6 +7,6 @@ This script:
 * reads already existing database entries
 * uses Chroma DB and LLMs to determine the distance between each new entry (names of customers) and existing entries
 * updates database with new entries when distance is greater than threshold
-* asks user when entries have a smaller distance
+* asks the user what to do when entries have a smaller distance
 * writes a basic log file in excel
 
