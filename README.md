@@ -1,7 +1,7 @@
 # Py-SQL-check2insert
 
 checking for similarity using Chroma DB and LLMs before updating database via SQL 
-
+---
 This script:
 * reads new entries from an excel-sheet to be inserted into a database
 * reads already existing database entries
